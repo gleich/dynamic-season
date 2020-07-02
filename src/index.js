@@ -5,15 +5,21 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { lat: null, long: null, errorMessage: '' };
+    this.state = { lat: null, errorMessage: '' };
+  }
+
+  componentDidMount() {
     window.navigator.geolocation.getCurrentPosition(
       (position) =>
         this.setState({
           lat: position.coords.latitude,
-          long: position.coords.longitude,
         }),
       (err) => this.setState({ errorMessage: err.message })
     );
+  }
+
+  componentDidUpdate() {
+    console.log('My component was just updated - it rendered again!');
   }
 
   render() {
@@ -24,13 +30,6 @@ class App extends React.Component {
           ? this.state.lat == null
             ? '🔄 Loading'
             : this.state.lat
-          : this.state.errorMessage}
-        <br />
-        Longitude:{' '}
-        {this.state.errorMessage === ''
-          ? this.state.lat == null
-            ? '🔄 Loading'
-            : this.state.long
           : this.state.errorMessage}
       </div>
     );
