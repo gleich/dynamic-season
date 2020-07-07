@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SeasonDisplay from './SeasonDisplay';
+import Spinner from './Spinner';
 
 class App extends React.Component {
   state = { lat: null, errorMessage: '' };
@@ -19,11 +20,21 @@ class App extends React.Component {
     console.log('My component was just updated - it rendered again!');
   }
 
-  render() {
+  renderContent() {
     if (this.state.errorMessage && !this.state.lat) {
       return <div>Error {this.state.errorMessage}</div>;
     }
-    return <SeasonDisplay lat={this.state.lat} />;
+
+    if (!this.state.errorMessage && this.state.lat) {
+      return <SeasonDisplay lat={this.state.lat} />;
+    }
+
+    return <Spinner message="Please accept location request" />;
+  }
+
+  render() {
+    // Example of using a common element
+    return <div className="border red">{this.renderContent()}</div>;
   }
 }
 
